@@ -48,6 +48,7 @@ import os
 import glob
 import shutil
 from itertools import combinations
+import pandas as pd
 
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -204,6 +205,11 @@ def main():
     similarities = np.array(similarities, dtype=np.float64)
     labels = np.array(labels, dtype=np.float64)
 
+    # NOTE: CHECKPOINT: save cosine similarities vector csv to file
+    sim_lab = pd.DataFrame([similarities, labels]).transpose()
+    sim_lab.columns = ["similarity", "label"]
+    sim_lab.to_csv("similarities.csv")
+
     kdeplot(similarities, label='orig cos sim')
 
     print('-> grid search p1/p2:')
@@ -221,7 +227,7 @@ def main():
     print('optimal p1/p2:', opt_p1, opt_p2)
     plt.axvline(opt_p1, ls='--', c='darkgrey')
     plt.axvline(opt_p2, ls='--', c='darkgrey')
-    
+
     corrected_scores = correct_scores(similarities, p1=opt_p1, p2=opt_p2)
     print('optimal score:', evaluate_all(pred_y=corrected_scores,
                                          true_y=labels))
@@ -230,6 +236,7 @@ def main():
     plt.axvline(corr_p1, ls='--', c='darkgrey')
     plt.axvline(corr_p2, ls='--', c='darkgrey')
     plt.xlim([0, 1])
+    plt.legend()
     plt.tight_layout()
     plt.savefig('kde.pdf')
     plt.clf()

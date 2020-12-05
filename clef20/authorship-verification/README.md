@@ -18,5 +18,4 @@ This folder contains all code, data and images used in preparing the extended la
     * `tm_preprocessing.ipynb`: script for POS-tagging the text pairs using Spacy and writing the filtered content words to plain text files.
     * tm_model.ipynb: code for fitting the topic model and calculating the topical dissimilarity between the pairs in the test set.
     * `analysis.ipynb`: code for the exploratory analysis of the result (presented in the extended overview paper).
-    
-    
+
